@@ -16,11 +16,14 @@ namespace SimpleTree
             tree.RecursiveAddToTree(7);
             tree.RecursiveAddToTree(1);
             tree.RecursiveAddToTree(5);
-
             tree.RecursiveAddToTree(8);
             tree.RecursiveAddToTree(15);
             tree.RecursiveAddToTree(3);
             tree.RecursiveAddToTree(6);
+
+            tree.RemoveFromTree(15);
+            tree.RemoveFromTree(3);
+
         }
     }
 }

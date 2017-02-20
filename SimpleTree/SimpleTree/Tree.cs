@@ -9,7 +9,7 @@ namespace SimpleTree
     class Tree
     {
         private TreeNode rootNode;
-        
+
         public void RecursiveAddToTree(int data)
         {
             if (this.rootNode == null)
@@ -21,7 +21,7 @@ namespace SimpleTree
                 this.RecursiveAddToTree(this.rootNode, new TreeNode() { Data = data });
             }
 
-            
+
         }
         private void RecursiveAddToTree(TreeNode current, TreeNode toAdd)
         {
@@ -38,6 +38,36 @@ namespace SimpleTree
                     current.Right = toAdd;
                 else
                     RecursiveAddToTree(current.Right, toAdd);
+            }
+        }
+        public void RemoveFromTree(int data)
+        {
+            RemoveFromTree(data, rootNode);
+        }
+        private void RemoveFromTree(int data, TreeNode current)
+        {
+            //laver en null reference når den tjekker en gren som er null.
+            if (current == null)
+                return;
+            else
+            {
+                if (current.Left.Data == data)
+                {
+                    current.Left = current.Left.Left;
+                }
+                if (current.Right.Data == data)
+                {
+                    current.Right = current.Right.Right;
+                }
+                if (data < current.Data)
+                {
+                    RemoveFromTree(data, current.Left);
+                }
+                if (data > current.Data)
+                {
+                    RemoveFromTree(data, current.Right);
+                }
+                
             }
         }
     }
