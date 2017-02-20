@@ -9,50 +9,35 @@ namespace SimpleTree
     class Tree
     {
         private TreeNode rootNode;
-        public void AddToTree(int data)
+        
+        public void RecursiveAddToTree(int data)
         {
-            TreeNode currentNode = rootNode;
-            TreeNode Node = new TreeNode();
-            Node.Data = data;
-
-            if (rootNode == null)
+            if (this.rootNode == null)
             {
-                rootNode = Node;
-                return;
+                this.rootNode = new TreeNode { Data = data };
             }
-            
             else
             {
-                while (currentNode != null)
-                {
-                    if (currentNode.Data < data)
-                    {
-                        if (currentNode.Left == null)
-                        {
-                            currentNode.Left = Node;
-                            return;
-                        }
-                        else
-                        {
-                            currentNode = currentNode.Left;
-                        }
+                this.RecursiveAddToTree(this.rootNode, new TreeNode() { Data = data });
+            }
 
-                    }
-                    else
-                    {
-                        if (currentNode.Right == null)
-                        {
-                            currentNode.Right = Node;
-                            return;
-                        }
-                        else
-                        {
-                            currentNode = currentNode.Right;
-                        }
-                    }
-                    return;
-                }
-                
+            
+        }
+        private void RecursiveAddToTree(TreeNode current, TreeNode toAdd)
+        {
+            if (toAdd.Data.CompareTo(current.Data) <= 0)
+            {
+                if (current.Left == null)
+                    current.Left = toAdd;
+                else
+                    RecursiveAddToTree(current.Left, toAdd);
+            }
+            else
+            {
+                if (current.Right == null)
+                    current.Right = toAdd;
+                else
+                    RecursiveAddToTree(current.Right, toAdd);
             }
         }
     }

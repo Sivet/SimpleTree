@@ -11,12 +11,16 @@ namespace SimpleTree
         static void Main(string[] args)
         {
             Tree tree = new Tree();
-            tree.AddToTree(2);
-            tree.AddToTree(4);
-            tree.AddToTree(7);
-            tree.AddToTree(1);
-            tree.AddToTree(5);
-            
+            tree.RecursiveAddToTree(2);
+            tree.RecursiveAddToTree(4);
+            tree.RecursiveAddToTree(7);
+            tree.RecursiveAddToTree(1);
+            tree.RecursiveAddToTree(5);
+
+            tree.RecursiveAddToTree(8);
+            tree.RecursiveAddToTree(15);
+            tree.RecursiveAddToTree(3);
+            tree.RecursiveAddToTree(6);
         }
     }
 }
