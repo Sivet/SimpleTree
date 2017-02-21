@@ -150,5 +150,135 @@ namespace SimpleTree
             }
             return false;
         }
+        public void RecursiveRemoveFromTree2(int data, TreeNode current, TreeNode before)
+        {
+            TreeNode Min;
+            if (current == null) { return; }
+
+            else if (data < current.Data) RecursiveRemoveFromTree2(data, current.Left, current);//look in the left
+            else if (data > current.Data) RecursiveRemoveFromTree2(data, current.Right, current);//look in the right
+            else
+            {//found node to delete
+                if (current.Left != null && current.Right != null)//two children
+                {
+                    Min = FindMinium(current.Right);
+                    current.Data = Min.Data;
+                    RecursiveRemoveFromTree2(data, current.Right, current);
+                }
+                else
+                { //one or zero children
+                    if (current.Left == null)
+                    {
+                        if (before == null) //the root node is to be deleted
+                        {
+                            rootNode = current.Right;
+                        }
+                        //else
+                        //{
+                        //    if (Tree.right != null)
+                        //    {
+                        //        Tree.right.parent = Tree.parent;
+                        //    }
+
+                        //    if (Tree == Tree.parent.left)
+                        //        Tree.parent.left = Tree.right;
+                        //    else Tree.parent.right = Tree.right;
+                        //}
+                    }
+                    else if (current.Right == null)
+                    {
+                        if (before == null)
+                            rootNode = current.Left;
+
+                        else
+                        {
+                            //Tree.left.parent = Tree.parent;
+                            if (current == before.Left)
+                                before.Left = current.Left;
+                            else before.Right = current.Left;
+                        }
+                    }
+                }
+            }
+        }
+        public TreeNode FindMinium(TreeNode node)
+        {
+            if (rootNode == null)
+                return null;
+            else if (node.Left == null)
+                return node;
+            else
+                return FindMinium(node.Left);
+            
+        }
+        public TreeNode FindMaximum(TreeNode node)
+        {
+            if (rootNode == null)
+                return null;
+            else if (node.Right == null)
+                return node;
+            else
+                return FindMinium(node.Right);
+        }
+        //public void delete(TreeNode Tree, int Tar)
+        //{
+
+        //    TreeNode Min, Temp;
+        //    if (Tree == null) { return; }
+
+        //    else if (Tar < Tree.Data) delete(Tree.Left, Tar);//look in the left
+        //    else if (Tar > Tree.Data) delete(Tree.Right, Tar);//look in the right
+        //    else
+        //    { //found node to delete
+
+        //        if (Tree.left != null && Tree.right != null) //two children
+        //        {
+        //            Min = findmin(Tree.right);
+        //            Tree.data = Min.data;
+        //            delete(Tree.right, Tree.Data);
+
+        //        }
+
+        //        else
+        //        { //one or zero child
+
+        //            if (Tree.left == null)
+        //            {
+        //                if (Tree.parent == null)
+        //                    Root = Tree.right; //The root node is to be deleted.
+        //                else
+        //                {
+        //                    if (Tree.right != null)
+        //                    {
+        //                        Tree.right.parent = Tree.parent;
+        //                    }
+
+        //                    if (Tree == Tree.parent.left)
+        //                        Tree.parent.left = Tree.right;
+        //                    else Tree.parent.right = Tree.right;
+        //                }
+
+        //            }
+        //            else if (Tree.right == null)
+        //            {
+        //                if (Tree.parent == null) Root = Tree.left;
+
+        //                else
+        //                {
+
+        //                    Tree.left.parent = Tree.parent;
+        //                    if (Tree == Tree.parent.left)
+        //                        Tree.parent.left = Tree.left;
+        //                    else Tree.parent.right = Tree.left;
+        //                }
+        //            }
+
+
+
+        //        }
+
+        //    }
+
+        //}
     }
 }
