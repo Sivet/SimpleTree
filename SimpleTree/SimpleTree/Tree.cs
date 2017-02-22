@@ -66,142 +66,79 @@ namespace SimpleTree
         }
         private bool RecursiveRemoveFromTree(int data, TreeNode current, TreeNode before)
         {
-            if (current.Data == data)
-            {
-                int dataRight = -1;
-                if (current.Right != null)
-                    dataRight = current.Right.Data;
-                int dataLeft = -1;
-                if (current.Left != null)
-                    dataLeft = current.Left.Data;
-
-                if (current.Right == null) // hvis den ene undergren er null
-                {
-                    if (current.Left == null) // hvis begge er null
-                    {
-                        if (before.Left == current) // hvis tidligere grens Left er den vi står på
-                        {
-                            before.Left = current.Left; // fjern os fra undergrenen
-                            current.Left = null;
-                            return true;
-                        }
-                        before.Right = current.Right; // ellers fjern os fra Right
-                        current.Right = null;
-                        return true;
-                    }
-                    // hvis kun Right er null
-                    if (before.Right == current) // hvis tidligere grens Right er den vi står på
-                    {
-
-                        before.Right = current.Right; // fjern os fra undergrenen
-                        current.Right = null;
-                        return true;
-                    }
-                    before.Left = current.Left; // ellers fjern os fra Right
-                    current.Left = null;
-                    return true;
-                }
-                else if (current.Left == null) // hvis kun Left på vores geren er null
-                {
-                    if (before.Left == current) // hvis tidligere grens Left er den vi står på
-                    {
-                        before.Left = current.Right; // fjern os fra undergrenen
-                        current.Right = null;
-                        return true;
-                    }
-                    before.Right = current.Right; // ellers fjern os fra Right
-                    current.Right = null;
-                    return true;
-                }
-                else // hvis vi har noget i begge undergrene
-                {
-                    if (before.Right == current)
-                    {
-                        before.Right = current.Right;
-                        //before.Right.Left = currenctBranch.Left;
-                        RecursiveAddToTree(current.Left, before.Right); // tilføj venstre gren igen
-                        current.Right = null;
-                        current.Left = null;
-                        return true;
-                    }
-                    before.Left = current.Right;
-                    //before.Left.Left = currenctBranch.Left;
-                    RecursiveAddToTree(current.Left, before.Left);
-                    current.Right = null;
-                    current.Left = null;
-                    return true;
-                }
-            }
-            if (data > current.Data)
-            {
-                if (current.Right == null)
-                {
-                    return false;
-                }
-                return RecursiveRemoveFromTree(data, current.Right, current);
-            }
-            if (data < current.Data)
-            {
-                if (current.Left == null)
-                {
-                    return false;
-                }
-                return RecursiveRemoveFromTree(data, current.Left, current);
-            }
-            return false;
-        }
-        public void RecursiveRemoveFromTree2(int data, TreeNode current, TreeNode before)
-        {
             TreeNode Min;
-            if (current == null) { return; }
+            if (current == null) { return false; }
 
-            else if (data < current.Data) RecursiveRemoveFromTree2(data, current.Left, current);//look in the left
-            else if (data > current.Data) RecursiveRemoveFromTree2(data, current.Right, current);//look in the right
-            else
-            {//found node to delete
+            else if (data < current.Data)
+                RecursiveRemoveFromTree(data, current.Left, current);//look in the left
+            else if (data > current.Data)
+                RecursiveRemoveFromTree(data, current.Right, current);//look in the right
+            else //found node to delete
+            {
                 if (current.Left != null && current.Right != null)//two children
                 {
                     Min = FindMinium(current.Right);
                     current.Data = Min.Data;
-                    RecursiveRemoveFromTree2(data, current.Right, current);
+                    RecursiveRemoveFromTree(current.Data, current.Right, current);
+                    return true;
                 }
-                else
-                { //one or zero children
-                    if (current.Left == null)
+                else //one or zero children
+                {
+                    if (current.Left == null) //if child might be on the right
                     {
-                        if (before == null) //the root node is to be deleted
+                        if (current.Right != null) //child is on the right
                         {
-                            rootNode = current.Right;
+                            if (before.Data > current.Data)
+                            {
+                                before.Left = current.Right;
+                            }
+                            else
+                            {
+                                before.Right = current.Right;
+                            }
                         }
-                        //else
-                        //{
-                        //    if (Tree.right != null)
-                        //    {
-                        //        Tree.right.parent = Tree.parent;
-                        //    }
-
-                        //    if (Tree == Tree.parent.left)
-                        //        Tree.parent.left = Tree.right;
-                        //    else Tree.parent.right = Tree.right;
-                        //}
-                    }
-                    else if (current.Right == null)
-                    {
-                        if (before == null)
-                            rootNode = current.Left;
-
-                        else
+                        else // if no children
                         {
-                            //Tree.left.parent = Tree.parent;
-                            if (current == before.Left)
+                            if (current.Data > before.Data)
+                            {
+                                before.Right = null;
+                            }
+                            else
+                            {
+                                before.Left = null;
+                            }
+                        }
+                    }
+                    else if (current.Right == null) //if child might be on the left
+                    {
+                        if (current.Left != null) //if child is on the left
+                        {
+                            if (before.Data > current.Data)
+                            {
                                 before.Left = current.Left;
-                            else before.Right = current.Left;
+                            }
+                            else
+                            {
+                                before.Right = current.Left;
+                            }
+                        }
+                        else //if no children
+                        {
+                            if (current.Data > before.Data)
+                            {
+                                before.Right = null;
+                            }
+                            else
+                            {
+                                before.Left = null;
+                            }
                         }
                     }
                 }
             }
+            return true;
         }
-        public TreeNode FindMinium(TreeNode node)
+        private TreeNode FindMinium(TreeNode node)
         {
             if (rootNode == null)
                 return null;
@@ -209,9 +146,9 @@ namespace SimpleTree
                 return node;
             else
                 return FindMinium(node.Left);
-            
+
         }
-        public TreeNode FindMaximum(TreeNode node)
+        private TreeNode FindMaximum(TreeNode node)
         {
             if (rootNode == null)
                 return null;
@@ -219,6 +156,32 @@ namespace SimpleTree
                 return node;
             else
                 return FindMinium(node.Right);
+        }
+        public TreeNode FindNode(int data)
+        {
+            if (rootNode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return FindNode(data, rootNode);
+            }
+            
+        }
+        private TreeNode FindNode(int data, TreeNode current)
+        {
+            if (rootNode == null)
+                return null;
+            else if (data < current.Data)
+                FindNode(data, current.Left);//look in the left
+            else if (data > current.Data)
+                FindNode(data, current.Right);//look in the right
+            else
+            {//found node
+                return current;
+            }
+            return null;
         }
         //public void delete(TreeNode Tree, int Tar)
         //{
