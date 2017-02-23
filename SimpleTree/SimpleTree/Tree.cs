@@ -140,7 +140,7 @@ namespace SimpleTree
         }
         private TreeNode FindMinium(TreeNode node)
         {
-            if (rootNode == null)
+            if (node == null)
                 return null;
             else if (node.Left == null)
                 return node;
@@ -150,7 +150,7 @@ namespace SimpleTree
         }
         private TreeNode FindMaximum(TreeNode node)
         {
-            if (rootNode == null)
+            if (node == null)
                 return null;
             else if (node.Right == null)
                 return node;
@@ -171,14 +171,14 @@ namespace SimpleTree
         }
         private TreeNode FindNode(IComparable data, TreeNode current)
         {
-            if (rootNode == null)
+            if (current == null)
                 return null;
             else if (data.CompareTo(current.Data) < 0)
                 FindNode(data, current.Left);//look in the left
             else if (data.CompareTo(current.Data) > 0)
                 FindNode(data, current.Right);//look in the right
             else
-            {//found node
+            {  //found node
                 return current;
             }
             return null;
