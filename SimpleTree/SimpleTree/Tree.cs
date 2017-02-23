@@ -10,7 +10,7 @@ namespace SimpleTree
     {
         private TreeNode rootNode;
 
-        public void AddToTree(int data)
+        public void AddToTree(IComparable data)
         {
             if (this.rootNode == null)
             {
@@ -40,13 +40,13 @@ namespace SimpleTree
                     RecursiveAddToTree(current.Right, toAdd);
             }
         }
-        public bool RemoveFromTree(int data)
+        public bool RemoveFromTree(IComparable data)
         {
-            if (rootNode.Data == data)
+            if (rootNode.Data.CompareTo(data) == 0)
             {
                 return false;
             }
-            if (data > rootNode.Data)
+            if (data.CompareTo(rootNode.Data) > 0)
             {
                 if (rootNode.Right == null)
                 {
@@ -54,7 +54,7 @@ namespace SimpleTree
                 }
                 return RecursiveRemoveFromTree(data, rootNode.Right, rootNode);
             }
-            if (data < rootNode.Data)
+            if (data.CompareTo(rootNode.Data) < 0)
             {
                 if (rootNode.Left == null)
                 {
@@ -64,14 +64,14 @@ namespace SimpleTree
             }
             return false;
         }
-        private bool RecursiveRemoveFromTree(int data, TreeNode current, TreeNode before)
+        private bool RecursiveRemoveFromTree(IComparable data, TreeNode current, TreeNode before)
         {
             TreeNode Min;
             if (current == null) { return false; }
 
-            else if (data < current.Data)
+            else if (data.CompareTo(current.Data) < 0)
                 RecursiveRemoveFromTree(data, current.Left, current);//look in the left
-            else if (data > current.Data)
+            else if (data.CompareTo(current.Data) > 0)
                 RecursiveRemoveFromTree(data, current.Right, current);//look in the right
             else //found node to delete
             {
@@ -88,7 +88,7 @@ namespace SimpleTree
                     {
                         if (current.Right != null) //child is on the right
                         {
-                            if (before.Data > current.Data)
+                            if (before.Data.CompareTo(current.Data) > 0)
                             {
                                 before.Left = current.Right;
                             }
@@ -99,7 +99,7 @@ namespace SimpleTree
                         }
                         else // if no children
                         {
-                            if (current.Data > before.Data)
+                            if (current.Data.CompareTo(before.Data) > 0)
                             {
                                 before.Right = null;
                             }
@@ -113,7 +113,7 @@ namespace SimpleTree
                     {
                         if (current.Left != null) //if child is on the left
                         {
-                            if (before.Data > current.Data)
+                            if (before.Data.CompareTo(current.Data) > 0)
                             {
                                 before.Left = current.Left;
                             }
@@ -124,7 +124,7 @@ namespace SimpleTree
                         }
                         else //if no children
                         {
-                            if (current.Data > before.Data)
+                            if (current.Data.CompareTo(before.Data) > 0)
                             {
                                 before.Right = null;
                             }
@@ -157,7 +157,7 @@ namespace SimpleTree
             else
                 return FindMinium(node.Right);
         }
-        public TreeNode FindNode(int data)
+        public TreeNode FindNode(IComparable data)
         {
             if (rootNode == null)
             {
@@ -169,13 +169,13 @@ namespace SimpleTree
             }
             
         }
-        private TreeNode FindNode(int data, TreeNode current)
+        private TreeNode FindNode(IComparable data, TreeNode current)
         {
             if (rootNode == null)
                 return null;
-            else if (data < current.Data)
+            else if (data.CompareTo(current.Data) < 0)
                 FindNode(data, current.Left);//look in the left
-            else if (data > current.Data)
+            else if (data.CompareTo(current.Data) > 0)
                 FindNode(data, current.Right);//look in the right
             else
             {//found node
