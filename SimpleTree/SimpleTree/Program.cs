@@ -24,7 +24,7 @@ namespace SimpleTree
             //tree.RemoveFromTree(15);
             //tree.RemoveFromTree(4);
             //tree.RemoveFromTree(8);
-            tree.RemoveFromTree(7);
+            //tree.RemoveFromTree(7);
 
             Console.ReadKey();
 
